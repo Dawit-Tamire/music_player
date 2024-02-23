@@ -1,0 +1,2 @@
+[filter "ignore-start"]
+    clean = "sed '/\"start\": \"nodemon server.js\"/d'"

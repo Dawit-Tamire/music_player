@@ -7,7 +7,7 @@ import { FETCH_SONG_DATA_REQUEST, fetchSongDataSuccess, fetchSongDataFailure } f
 function* fetchSongDataSaga() {
   try {
     // Make API call to fetch song data
-    const response: AxiosResponse = yield call(axios.post, 'http://localhost:5000/song/'); // Assuming the API endpoint is '/api/songs'
+    const response: AxiosResponse = yield call(axios.get, 'http://localhost:5000/song/'); // Assuming the API endpoint is '/api/songs'
     
     // Dispatch success action with the received data
     yield put(fetchSongDataSuccess(response.data));

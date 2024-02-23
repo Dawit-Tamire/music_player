@@ -1,22 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { store } from './app/store';
 import SongList from './component/songList';
 import SongForm from './component/songForm';
 import Statistics from './component/Statistics';
+import Sidebar from './component/sidebar';
+import { Provider } from 'react-redux';
 
 function App() {
   return (
-    <div>
-      <Provider store={store}>
-        <h1>Music App</h1>
-        <SongList />
-        <SongForm />
-        <Statistics />
-      </Provider>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route index element={<Sidebar />} />
+          <Route path="/list" element={<SongList />} />
+          <Route path="/song" element={<SongForm />} />
+          <Route path="/statistics" element={<Statistics />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
 }
 

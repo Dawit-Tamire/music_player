@@ -5,6 +5,10 @@ import { Flex, Box, Text } from 'rebass';
 //import { fetchSongData } from '../actions';
 import { RootState } from '../app/store';
 
+
+const background = css`
+    background-color: #eee;
+`
 // Define props interface
 interface Props {
   //fetchSongData: () => void;
@@ -42,32 +46,34 @@ const SongStatistics: React.FC<Props> = () => {
   // });
 
   return (
-    <Flex flexDirection="column" alignItems="center">
-      <Box mb={4}>
-        <Text>Total number of songs: </Text>
-        <Text>Total number of artists: </Text>
-        <Text>Total number of albums: </Text>
-        <Text>Total number of genres: </Text>
-      </Box>
-      <Box mb={4}>
-        <Text>Number of songs in each genre:</Text>
-        {/* {Object.entries(genresCount).map(([genre, count]) => (
-          <Text key={genre}>{genre}: {count}</Text>
-        ))} */}
-      </Box>
-      <Box mb={4}>
-        <Text>Number of songs & albums each artist has:</Text>
-        {/* {Object.entries(artistsCount).map(([artist, count]) => (
-          <Text key={artist}>{artist}: {count} songs, {albumsCount[artist]} albums</Text>
-        ))} */}
-      </Box>
-      <Box>
-        <Text>Number of songs in each album:</Text>
-        {/* {Object.entries(albumsCount).map(([album, count]) => (
-          <Text key={album}>{album}: {count}</Text>
-        ))} */}
-      </Box>
-    </Flex>
+    <div css={background}>
+      <Flex flexDirection="column" alignItems="center" >
+        <Box mb={4}>
+          <Text>Total number of songs: </Text>
+          <Text>Total number of artists: </Text>
+          <Text>Total number of albums: </Text>
+          <Text>Total number of genres: </Text>
+        </Box>
+        <Box mb={4}>
+          <Text>Number of songs in each genre:</Text>
+          {/* {Object.entries(genresCount).map(([genre, count]) => (
+            <Text key={genre}>{genre}: {count}</Text>
+          ))} */}
+        </Box>
+        <Box mb={4}>
+          <Text>Number of songs & albums each artist has:</Text>
+          {/* {Object.entries(artistsCount).map(([artist, count]) => (
+            <Text key={artist}>{artist}: {count} songs, {albumsCount[artist]} albums</Text>
+          ))} */}
+        </Box>
+        <Box>
+          <Text>Number of songs in each album:</Text>
+          {/* {Object.entries(albumsCount).map(([album, count]) => (
+            <Text key={album}>{album}: {count}</Text>
+          ))} */}
+        </Box>
+      </Flex>
+    </div>
   );
 };
 
