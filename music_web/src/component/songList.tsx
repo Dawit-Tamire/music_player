@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import styled from '@emotion/styled';
@@ -7,33 +7,40 @@ import { Box } from 'rebass';
 import { SxProps } from "rebass";
 import { css } from '@emotion/react';
 
-const inputStyles = css`
+const cardStyles = css`
+  background-color: red;
   padding: 16px;
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  justify-content: center;
 `;
 
-const table = css`
-  border-collapse: collapse;
-  width: 100%;
-`
+// const tableStyles = css`
+//   width: 100%;
+//   font-family: Arial, sans-serif;
+//   margin-top: 20px;
+// `;
+  // th,
+  // td {
+  //   border: 1px solid #ddd;
+  //   padding: 8px;
+  //   text-align: left;
+  // }
 
-// th, td {
-//   text-align: left;
-//   padding: 8px;
-// }
+  // th {
+  //   background-color: #f2f2f2;
+  // }
 
-// tr:nth-child(even){background-color: #f2f2f2}
+  // tr:nth-child(even) {
+  //   background-color: #f2f2f2;
+  // }
 
-// th {
-//   background-color: #04AA6D;
-//   color: white;
-// }
 
 const SongList: React.FC = () => {
   const { songs } = useSelector((state: RootState) => state.player.songData);
 
   return (
-    <div>
+    <div css={cardStyles}>
       <table>
         <thead>
           <tr>

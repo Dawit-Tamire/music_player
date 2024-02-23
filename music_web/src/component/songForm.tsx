@@ -8,7 +8,7 @@ import { space, color, fontSize } from 'styled-system';
 
 
 const cardStyles = css`
-  background-color: #fff;
+  background-color: red;
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -18,6 +18,16 @@ const cardStyles = css`
 const inputStyles = css`
   padding: 16px;
   border-radius: 8px;
+`;
+
+const StyledInput = styled.input`
+  display: block;
+  margin: 0px 0px;
+  font-size: 10px;
+  width: 200px;
+  height: 30px;
+  border: 1px solid lightblue;
+  border-radius: 10px;
 `;
 
 const Button = styled.button`
@@ -53,41 +63,31 @@ const SongForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <label htmlFor="title">Title</label>
           <br />
-          <input
-            type="text"
+          <StyledInput
             placeholder="Enter title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />
-          <br />  
 
           <label htmlFor="artist">Artist</label>
-          <br />
-          <input
-            type="text"
+          <StyledInput
             placeholder="Enter artist"
             value={artist}
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />
-          <br />
 
           <label htmlFor="album">Album</label>
-          <br />
-          <input
-            type="text"
+          <StyledInput
             placeholder="Enter album"
             value={album}
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />
-          <br />
 
           <label htmlFor="genre">Genre</label>
-          <br />
-          <input
-            type="text"
+          <StyledInput
             placeholder="Enter genre"
             value={genre}
             onChange={(e) => setTitle(e.target.value)}
