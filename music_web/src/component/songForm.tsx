@@ -15,11 +15,6 @@ const cardStyles = css`
   justify-content: center;
 `;
 
-const inputStyles = css`
-  padding: 16px;
-  border-radius: 8px;
-`;
-
 const StyledInput = styled.input`
   display: block;
   margin: 0px 0px;
@@ -66,6 +61,7 @@ const SongForm: React.FC = () => {
           <StyledInput
             placeholder="Enter title"
             value={title}
+            required
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />
@@ -74,6 +70,7 @@ const SongForm: React.FC = () => {
           <StyledInput
             placeholder="Enter artist"
             value={artist}
+            required
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />
@@ -82,6 +79,7 @@ const SongForm: React.FC = () => {
           <StyledInput
             placeholder="Enter album"
             value={album}
+            required
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />
@@ -90,6 +88,7 @@ const SongForm: React.FC = () => {
           <StyledInput
             placeholder="Enter genre"
             value={genre}
+            required
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />

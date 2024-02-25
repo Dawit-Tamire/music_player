@@ -2,41 +2,38 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { Home, MusicNote, BarChart } from '@mui/icons-material';
+import styled from '@emotion/styled';
 
 
-const sidebarStyles = css`
-  width: 200px;
+const SideBar = styled.div`
+  width: 250px;
+  height: 735px;
   background-color: #f0f0f0;
-  padding: 16px;
-`;
-
-const tabStyles = css`
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-  cursor: pointer;
+  flex-direction: column;
+  margin-left: -7px;
+  margin-top: -20px;
 `;
 
-const background = css`
-    background-color: #eee;
-`
 
 const Sidebar: React.FC = () => {
+  
   return (
-    <div css={sidebarStyles}>
-      <Link to="/list" css={tabStyles}>
-        <Home />
-        Home
-      </Link>
-      <Link to="/song" css={tabStyles}>
-        <MusicNote />
-        Song
-      </Link>
-      <Link to="/statistics" css={tabStyles}>
-        <BarChart />
-        Statistics
-      </Link>
+    <div>
+      <SideBar>
+          <Link to="/list" style={{marginTop: "20px"}}>
+            <Home />
+            Home
+          </Link>
+          <Link to="/song">
+            <MusicNote />
+            Song
+          </Link>
+          <Link to="/statistics">
+            <BarChart />
+            Statistics
+          </Link>
+      </SideBar>
     </div>
   );
 };

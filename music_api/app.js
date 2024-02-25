@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+const cors = require("cors");
 var logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
@@ -49,6 +50,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  cors({
+    exposedHeaders: "X-CSRF-Token",
+    credentials: true,
+    accessControlAllowCredentials: true,
+    origin: [
+      "http://localhost:3000",
+    ],
+  })
+);
+
 
 // Middleware
 app.use(bodyParser.json());

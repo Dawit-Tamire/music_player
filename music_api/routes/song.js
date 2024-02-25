@@ -24,7 +24,6 @@ router.route("/stats/albums").get(totalNumberOfAlbums);
 router.route("/stats/genres").get(totalNumberOfGenres);
 router.route("/stats/songsInGenre").get(totalNumberOfSongsInGenre);
 router.route("/stats/songsAndAlbums/:name").get(totalNumberOfSongsAndAlbums);
-router.route("/stats/:id").get(totalNumberOfSongsInGenre);
 router.route("/stats/songsInAlbum/:name").get(totalNumberOfSongsInAlbum);
 
 

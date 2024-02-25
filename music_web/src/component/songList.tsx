@@ -1,70 +1,99 @@
-import React, { PropsWithChildren, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { space, color } from 'styled-system';
-import { Box } from 'rebass';
-import { SxProps } from "rebass";
-import { css } from '@emotion/react';
+//import getSongs from '../services/song.api';
+import { Song } from '../types/types';
+import { songActions } from '../slices/songSclice';
+import type { RootState } from '../root/config.store';
 
-const cardStyles = css`
-  background-color: red;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  justify-content: center;
+const Table = styled.div`
+  width: 100%;
+  margin-top: 20px;
 `;
 
-// const tableStyles = css`
-//   width: 100%;
-//   font-family: Arial, sans-serif;
-//   margin-top: 20px;
-// `;
-  // th,
-  // td {
-  //   border: 1px solid #ddd;
-  //   padding: 8px;
-  //   text-align: left;
-  // }
+const HeaderRow = styled.div`
+  width: 165vh;
+  font-weight: bold;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  background-color: gray;
+`;
 
-  // th {
-  //   background-color: #f2f2f2;
-  // }
+const DataRow = styled.div`
+  width: 165vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+`;
 
-  // tr:nth-child(even) {
-  //   background-color: #f2f2f2;
-  // }
-
+const Cell = styled.div`
+  padding: 8px;
+  border: 1px solid #ddd;
+`;
 
 const SongList: React.FC = () => {
-  const { songs } = useSelector((state: RootState) => state.player.songData);
 
+  const dispatch = useDispatch();
+  const [songState, setSongState] = useState<Song | Song[]>(null || []);
+  const songSlice = useSelector((state: RootState) => state.song);
+  const { data } = songSlice;
+    
+  useEffect(() => {
+    console.warn("fetch songs")
+    dispatch(songActions.fetchSongsRequest())
+  }, []);
+
+  useEffect(() => {
+    setSongState(data)
+  }, [data]);
+
+  
+  // const handleEdit = (id: string) => {
+  //   try {
+  //     const songResult = await getSongs(); // Call your async function
+  //     setSongState(songResult); // Update state with the fetched data
+  //   } catch (error) {
+  //     console.error('Error fetching song data:', error);
+  //   }
+  // };
+
+  // const handledelete = (id: string) => {
+  //   try {
+  //     const songResult = await getSongs(); // Call your async function
+  //     setSongState(songResult); // Update state with the fetched data
+  //   } catch (error) {
+  //     console.error('Error fetching song data:', error);
+  //   }
+  // };
+
+
+  useEffect(() => {
+    console.log("songState", songState)
+  }, [songState]);
+  
   return (
-    <div css={cardStyles}>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Genre</th>
-            <th>Artist</th>
-            <th>Album</th>
-          </tr>
-        </thead>
-        <tbody>
-          {songs.map((song: any) => (
-            <tr>
-              <td>{song.title}</td>
-              <td>{song.genre}</td>
-              <td>{song.artist}</td>
-              <td>{song.album}</td>
-            </tr>
-          ))}
-          
-        </tbody>
-      </table>
+    <div>
+      <Table>
+        <HeaderRow>
+          <Cell>Title</Cell>
+          <Cell>Genre</Cell>
+          <Cell>Artist</Cell>
+          <Cell>Album</Cell>
+          <Cell>Album</Cell>
+        </HeaderRow>
+        {/* {songState.length === 0 && songState.map((song: any) => (
+          <DataRow> 
+            <Cell>{song.title}</Cell>
+            <Cell>{song.genre}</Cell>
+            <Cell>{song.artist}</Cell>
+            <Cell>{song.album}</Cell>
+            <Cell><button onClick={() => handleEdit(song._id)}>Edit</button></Cell>
+            <Cell><button onClick={() => handleDelete(song._id)}>Delete</button></Cell>
+          </DataRow>
+        ))} */}
+        
+      </Table>
     </div>
   );
 };
 
 export default SongList;
-
