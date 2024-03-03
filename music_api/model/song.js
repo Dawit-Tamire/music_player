@@ -6,11 +6,11 @@ const songSchema = new moongose.Schema({
         type: String,
         required: true
     },
-    artist: {
+    genre: {
         type: String,
         required: true
     },
-    genre: {
+    artist: {
         type: String,
         required: true
     },

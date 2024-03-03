@@ -23,8 +23,8 @@ router.route("/stats/artists").get(totalNumberOfArtists);
 router.route("/stats/albums").get(totalNumberOfAlbums);
 router.route("/stats/genres").get(totalNumberOfGenres);
 router.route("/stats/songsInGenre").get(totalNumberOfSongsInGenre);
-router.route("/stats/songsAndAlbums/:name").get(totalNumberOfSongsAndAlbums);
-router.route("/stats/songsInAlbum/:name").get(totalNumberOfSongsInAlbum);
+router.route("/stats/songsAndAlbums").get(totalNumberOfSongsAndAlbums);
+router.route("/stats/songsInAlbum").get(totalNumberOfSongsInAlbum);
 
 
 module.exports = router;

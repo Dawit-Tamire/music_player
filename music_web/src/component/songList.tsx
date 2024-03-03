@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-//import getSongs from '../services/song.api';
-import { Song } from '../types/types';
+import type { Song } from '../types/types';
 import { songActions } from '../slices/songSclice';
 import type { RootState } from '../root/config.store';
+import { color, fontSize, space } from 'styled-system';
+import { Dialog } from '@mui/material';
+import SongForm from './songForm';
 
 const Table = styled.div`
   width: 100%;
@@ -15,14 +17,14 @@ const HeaderRow = styled.div`
   width: 165vh;
   font-weight: bold;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   background-color: gray;
 `;
 
 const DataRow = styled.div`
   width: 165vh;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 `;
 
 const Cell = styled.div`
@@ -30,66 +32,71 @@ const Cell = styled.div`
   border: 1px solid #ddd;
 `;
 
+const Button = styled.button`
+  ${space}
+  ${color}
+  ${fontSize}
+
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 10px;
+`;
+
+
 const SongList: React.FC = () => {
 
   const dispatch = useDispatch();
-  const [songState, setSongState] = useState<Song | Song[]>(null || []);
-  const songSlice = useSelector((state: RootState) => state.song);
-  const { data } = songSlice;
-    
+  const songs = useSelector((state: RootState) => state.song.songs);
+  
+  const [showDialog, setShowDialog] = useState(false)
+
   useEffect(() => {
-    console.warn("fetch songs")
     dispatch(songActions.fetchSongsRequest())
   }, []);
+ 
+  const handleEdit = (song: Song) => {
+    console.log("id", song)
+    dispatch(songActions.addSong(song))
+  };
 
-  useEffect(() => {
-    setSongState(data)
-  }, [data]);
+  const handleDelete = (id: string) => {
+    dispatch(songActions.deleteSongRequest(id))
+  };
 
-  
-  // const handleEdit = (id: string) => {
-  //   try {
-  //     const songResult = await getSongs(); // Call your async function
-  //     setSongState(songResult); // Update state with the fetched data
-  //   } catch (error) {
-  //     console.error('Error fetching song data:', error);
-  //   }
-  // };
+  const handleOpen = () => {
+    setShowDialog(true);
+  }
 
-  // const handledelete = (id: string) => {
-  //   try {
-  //     const songResult = await getSongs(); // Call your async function
-  //     setSongState(songResult); // Update state with the fetched data
-  //   } catch (error) {
-  //     console.error('Error fetching song data:', error);
-  //   }
-  // };
+  const handleClose = () => {
+    setShowDialog(false);
+  }
 
-
-  useEffect(() => {
-    console.log("songState", songState)
-  }, [songState]);
   
   return (
     <div>
+      <Dialog open={showDialog} onClose={handleClose}>
+        <SongForm add={false} />
+      </Dialog>
       <Table>
         <HeaderRow>
           <Cell>Title</Cell>
           <Cell>Genre</Cell>
           <Cell>Artist</Cell>
           <Cell>Album</Cell>
-          <Cell>Album</Cell>
+          <Cell></Cell>
         </HeaderRow>
-        {/* {songState.length === 0 && songState.map((song: any) => (
+        {songs.length !== 0 && songs.map((song: any) => (
           <DataRow> 
             <Cell>{song.title}</Cell>
             <Cell>{song.genre}</Cell>
             <Cell>{song.artist}</Cell>
             <Cell>{song.album}</Cell>
-            <Cell><button onClick={() => handleEdit(song._id)}>Edit</button></Cell>
-            <Cell><button onClick={() => handleDelete(song._id)}>Delete</button></Cell>
+            <Cell>
+              <Button onClick={() => { handleOpen(); handleEdit(song)}}>Edit</Button>
+              <Button onClick={() => handleDelete(song._id)}>Delete</Button>
+            </Cell>
           </DataRow>
-        ))} */}
+        ))}
         
       </Table>
     </div>

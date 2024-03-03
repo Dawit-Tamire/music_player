@@ -1,100 +1,69 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { css } from '@emotion/react';
 import { Flex, Box, Text } from 'rebass';
-//import { fetchSongData } from '../actions';
-import { RootState } from '../app/store';
+import { RootState } from '../root/config.store';
+import { songActions } from '../slices/songSclice';
 
 
-const background = css`
-    background-color: #eee;
-`
-interface Props {
-  //fetchSongData: () => void;
-}
+
+const SongStatistics: React.FC = () => {
+  
+  const dispatch = useDispatch();
+
+  const { totalNumberOfSongs, totalNumberOfGenres, totalNumberOfAlbums, totalNumberOfArtists,
+            totalNumberOfSongsAndAlbums, totalNumberOfSongsInGenre, totalNumberOfSongsInAlbum } 
+            = useSelector((state: RootState) => state.song);
 
 
-const SongStatistics: React.FC<Props> = () => {
-  let totalSongs=10;
+  useEffect(() => {
+    dispatch(songActions.fetchTotalNumberOfSongsRequest())
+    dispatch(songActions.fetchTotalNumberOfGenresRequest())
+    dispatch(songActions.fetchTotalNumberOfAlbumRequest())
+    dispatch(songActions.fetchTotalNumberOfArtistRequest())
+    dispatch(songActions.fetchTotalNumberOfSongsAndAlbumRequest())
+    dispatch(songActions.fetchTotalNumberOfSongsInAlbumRequest())
+    dispatch(songActions.fetchTotalNumberOfSongsInGenreRequest())
 
-  // useEffect(() => {
-  //   fetchSongData();
-  // }, [fetchSongData]);
+  }, []);
 
-  // if (!songData) {
-  //   return <div>Loading...</div>;
-  // }
+  useEffect(() => {
+    console.log("total stats", totalNumberOfSongsInGenre)
 
-  // Calculate statistics
-  // const totalSongs = songData.songs.length;
-  // const totalArtists = new Set(songData.songs.map(song => song.artist)).size;
-  // const totalAlbums = new Set(songData.songs.map(song => song.album)).size;
-  // const totalGenres = new Set(songData.songs.map(song => song.genre)).size;
+  }, [totalNumberOfSongs]);
 
-  // const genresCount: { [key: string]: number } = {};
-  // songData.songs.forEach(song => {
-  //   genresCount[song.genre] = (genresCount[song.genre] || 0) + 1;
-  // });
-
-  // const artistsCount: { [key: string]: number } = {};
-  // songData.songs.forEach(song => {
-  //   artistsCount[song.artist] = (artistsCount[song.artist] || 0) + 1;
-  // });
-
-  // const albumsCount: { [key: string]: number } = {};
-  // songData.songs.forEach(song => {
-  //   albumsCount[song.album] = (albumsCount[song.album] || 0) + 1;
-  // });
 
   return (
-    <div>
-      <Flex flexDirection="column" alignItems="center" >
-        {/* <Box mb={4}>
-          <Text>Total number of songs: {totalSongs}</Text>
-          <Text>Total number of artists: </Text>
-          <Text>Total number of albums: </Text>
-          <Text>Total number of genres: </Text>
-        </Box> */}
-        <Box width="300px" height="80px" bg="lightblue" sx={{ border: '1px solid #ccc' }} mb={4}>
-          <Text>Total number of songs: {totalSongs}</Text>
-          <Text>Total number of artists: </Text>
-          <Text>Total number of albums: </Text>
-          <Text>Total number of genres: </Text>
+    <div style={{width: "1285px", height: "742px", backgroundColor: "lightgray"}}>
+      <h1 style={{marginLeft: "50px"}}>Statistics of Songs</h1>
+      <Flex flexDirection="row" alignItems="center" mt={70}>
+        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={50}>
+          <Text>Total number of songs: {totalNumberOfSongs.totalSongs}</Text>
+          <Text>Total number of artists: {totalNumberOfGenres.totalGenres}</Text>
+          <Text>Total number of albums: {totalNumberOfAlbums.totalAlbums}</Text>
+          <Text>Total number of genres: {totalNumberOfArtists.totalArtists}</Text>
         </Box>
-        <Box width="300px" height="80px" bg="lightblue" sx={{ border: '1px solid #ccc' }} mb={4}>
-          <Text>Number of songs in each genre:</Text>
-          {/* {Object.entries(genresCount).map(([genre, count]) => (
-            <Text key={genre}>{genre}: {count}</Text>
-          ))} */}
+        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={200}>
+          { totalNumberOfSongsInGenre.map((songsInGenre: any)  => (
+            <Text>Number of songs in {songsInGenre._id}: {songsInGenre.count}</Text>
+          ))}
         </Box>
-        <Box width="300px" height="80px" bg="lightblue" sx={{ border: '1px solid #ccc' }} mb={4}>
-          <Text>Number of songs & albums each artist has:</Text>
-          {/* {Object.entries(artistsCount).map(([artist, count]) => (
-            <Text key={artist}>{artist}: {count} songs, {albumsCount[artist]} albums</Text>
-          ))} */}
+      </Flex>
+      <Flex flexDirection="row" alignItems="center" mt={10}>
+        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={50}>
+          { totalNumberOfSongsAndAlbums.map((songsAndAlbums: any)  => (
+            <Text>{songsAndAlbums._id} has: {songsAndAlbums.totalSongs} songs and {songsAndAlbums.albums.length} albums</Text>
+          ))}
         </Box>
-        <Box width="300px" height="80px" bg="lightblue" sx={{ border: '1px solid #ccc' }} mb={4}>
-          <Text>Number of songs in each album:</Text>
-          {/* {Object.entries(albumsCount).map(([album, count]) => (
-            <Text key={album}>{album}: {count}</Text>
-          ))} */}
+        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={200}>
+          { totalNumberOfSongsInAlbum.map((songsInAlbums: any)  => (
+            <Text>Number of songs in {songsInAlbums._id} album: {songsInAlbums.totalSongs}</Text>
+          ))}
         </Box>
       </Flex>
     </div>
   );
 };
 
-// Map Redux state to component props
-// const mapStateToProps = (state: RootState) => ({
-//   songData: state.songData
-// });
-
-// Map Redux actions to component props
-// const mapDispatchToProps = (dispatch: Function) => ({
-//   fetchSongData: () => dispatch(fetchSongData())
-// });
-
-// Connect component to Redux store
-//export default connect(mapStateToProps, mapDispatchToProps)(SongStatistics);
 
 export default SongStatistics;

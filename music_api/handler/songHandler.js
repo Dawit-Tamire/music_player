@@ -2,11 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Song = require('../model/song');
 
-// Routes
 // Create a song
 const createSong = async (req, res) => {
     try {
         const { title, artist, genre, album } = req.body;
+        console.log("req.body", req.body)
         const newSong = new Song({ title, artist, genre, album });
         const savedSong = await newSong.save();
         res.status(200).json(savedSong);
@@ -53,7 +53,8 @@ const updateSong = async (req, res) => {
 const deleteSong = async (req, res) => {
     try {
         const { id } = req.params;
-        await Song.findByIdAndRemove(id);
+        console.log("deleteSong", id)
+        await Song.findByIdAndDelete(id);
         res.status(200).json({ message: 'Song deleted successfully' });
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -64,6 +65,7 @@ const deleteSong = async (req, res) => {
 const totalNumberOfSongs =  async (req, res) => {
     try {
         const totalSongs = await Song.countDocuments();
+
         res.status(200).json({ totalSongs });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -73,7 +75,8 @@ const totalNumberOfSongs =  async (req, res) => {
 // Total number of artists
 const totalNumberOfArtists = async (req, res) => {
     try {
-        const totalArtists = await Song.distinct('artist').count();
+        const uniqueArtists = await Song.distinct('artist');
+        const totalArtists = uniqueArtists.length;
         res.status(200).json({ totalArtists });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -83,7 +86,9 @@ const totalNumberOfArtists = async (req, res) => {
 // Total number of albums
 const totalNumberOfAlbums = async (req, res) => {
     try {
-        const totalAlbums = await Song.distinct('album').count();
+        const uniqueAlbums = await Song.distinct('album');
+        const totalAlbums = uniqueAlbums.length;
+
         res.status(200).json({ totalAlbums });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -93,7 +98,9 @@ const totalNumberOfAlbums = async (req, res) => {
 // Total number of genres
 const totalNumberOfGenres = async (req, res) => {
     try {
-        const totalGenres = await Song.distinct('genre').count();
+        const uniqueGenres = await Song.distinct('genre');
+        const totalGenres = uniqueGenres.length;
+
         res.status(200).json({ totalGenres });
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -114,38 +121,37 @@ const totalNumberOfSongsInGenre = async (req, res) => {
 
 // Number of songs and albums of an artist
 const totalNumberOfSongsAndAlbums = async (req, res) => {
-    const { name } = req.params;
 
     try {
-        const songs = await Song.find([
-            { artist: name}
+        const artists = await Song.aggregate([
+            {
+                $group: {
+                    _id: '$artist',
+                    totalSongs: { $sum: 1 },
+                    albums: { $addToSet: '$album' }
+                }
+            }
         ]);
-
-        const songsCount = songs.length;
-        const albumCount = Set(songs.map((song) => song.album )).size;
-
-        res.status(200).json({
-            artist: name,
-            song: songsCount,
-            album: albumCount
-        });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.json(artists);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
 
 // Number of songs in album
 const totalNumberOfSongsInAlbum = async (req, res) => {
-    const { name } = req.params;
-
     try {
-        const songs = await Song.find([
-            { album: name}
-        ]).count();
-
-        res.status(200).json({ songs });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const albums = await Song.aggregate([
+            {
+                $group: {
+                    _id: '$album',
+                    totalSongs: { $sum: 1 }
+                }
+            }
+        ]);
+        res.json(albums);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
     }
 };
 

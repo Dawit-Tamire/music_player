@@ -11,8 +11,6 @@ const SideBar = styled.div`
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
-  margin-left: -7px;
-  margin-top: -20px;
 `;
 
 
@@ -21,7 +19,7 @@ const Sidebar: React.FC = () => {
   return (
     <div>
       <SideBar>
-          <Link to="/list" style={{marginTop: "20px"}}>
+          <Link to="/" style={{marginTop: "20px"}}>
             <Home />
             Home
           </Link>

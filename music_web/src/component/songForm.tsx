@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { css } from '@emotion/react';
 //import { addSong } from '../rootSaga';
 import { Card } from 'rebass';
 import styled from '@emotion/styled';
 import { space, color, fontSize } from 'styled-system';
+import { songActions } from '../slices/songSclice';
+import type { Song } from '../types/types';
+import { RootState } from '../root/config.store';
 
 
 const cardStyles = css`
@@ -38,63 +41,78 @@ const Button = styled.button`
   padding: 10px;
 `;
 
-const SongForm: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [genre, setGenre] = useState('');
-  const [artist, setArtist] = useState('');
-  const [album, setAlbum] = useState('');
+
+interface Props {
+  add: boolean
+}
+
+const SongForm: React.FC<Props> = ({add}) => {
+  const [formData, setFormData] = useState<Song>({_id: '', title: '', genre: '', album: '', artist: ''})
+  const song = useSelector((state: RootState) => state.song.song);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(!add){
+      setFormData({ ...song })
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //dispatch(addSong({ title }));
-    setTitle('');
+    console.log("formData", formData)
+    
+    add 
+      ? dispatch(songActions.addSongRequest(formData)) && dispatch(songActions.fetchSongsRequest())
+        : dispatch(songActions.updateSongRequest(formData)) && dispatch(songActions.fetchSongsRequest());
+      
   };
 
   return (
-    <div css={cardStyles}>
-      <Card mx="auto" width={300} height={200}>
-        <h2>Create a Song</h2>
-        <form onSubmit={handleSubmit}>
+    <div>
+      <Card width={300} height={450}>
+        <h2 style={{marginLeft: "70px"}}>Create a Song</h2>
+        <form onSubmit={handleSubmit} style={{marginLeft: "50px"}}>
           <label htmlFor="title">Title</label>
           <br />
           <StyledInput
             placeholder="Enter title"
-            value={title}
+            value={formData.title}
             required
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <br />
-
-          <label htmlFor="artist">Artist</label>
-          <StyledInput
-            placeholder="Enter artist"
-            value={artist}
-            required
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <br />
-
-          <label htmlFor="album">Album</label>
-          <StyledInput
-            placeholder="Enter album"
-            value={album}
-            required
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <br />
 
           <label htmlFor="genre">Genre</label>
           <StyledInput
             placeholder="Enter genre"
-            value={genre}
+            value={formData.genre}
             required
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setFormData({ ...formData, genre: e.target.value })}
+          />
+          <br />
+
+          <label htmlFor="album">Album</label>
+          <StyledInput
+            placeholder="Enter album"
+            value={formData.album}
+            required
+            onChange={(e) => setFormData({ ...formData, album: e.target.value })}
+          />
+          <br />
+
+          <label htmlFor="artist">Artist</label>
+          <StyledInput
+            placeholder="Enter artist"
+            value={formData.artist}
+            required
+            onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
           />
           <br />
           <br />
 
-          <Button>Create</Button>
+          <div style={{ marginLeft: "70px"}}>
+            <Button>{ add ? "Create" : "Update" }</Button>
+          </div>
         </form>
       </Card>
     </div>

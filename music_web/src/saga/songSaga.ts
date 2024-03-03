@@ -7,126 +7,133 @@ import { getSongs, createSong, updateSong, deleteSong,
     getTotalNumberOfSongsInAlbum }
     from '../services/song.api';
 import { type Song } from '../types/types';
-import {FETCH_SONGS_REQUEST, songActions } from '../slices/songSclice';
+import {ADD_SONG_REQUEST, DELETE_SONG_REQUEST, FETCH_SONGS_REQUEST, FETCH_TOTAL_NUMBER_OF_ALBUM_REQUEST, 
+    FETCH_TOTAL_NUMBER_OF_ARTIST_REQUEST, FETCH_TOTAL_NUMBER_OF_GENRE_REQUEST, FETCH_TOTAL_NUMBER_OF_SONGS_AND_ALBUM_REQUEST, 
+    FETCH_TOTAL_NUMBER_OF_SONGS_IN_ALBUM_REQUEST, FETCH_TOTAL_NUMBER_OF_SONGS_IN_GENRE_REQUEST, 
+    FETCH_TOTAL_NUMBER_OF_SONGS_REQUEST, UPDATE_SONG_REQUEST, songActions } from '../slices/songSclice';
 
 // Worker Sagas
 export function* onGetSongs(): SagaIterator {
     try {
         const posts: Song[] = yield call(getSongs);
-        yield put(songActions.fetchAllSucceeded(posts));
+        yield put(songActions.getSongs(posts));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }
 }
 
-export function* onCreateSongs(): SagaIterator {
+export function* onCreateSong(action: any) {
     try {
-        const post: Song = yield call(createSong);
-        yield put(songActions.fetchSucceeded(post));
+        console.log("action", action, action.payload)
+        const post: Song = yield call(createSong, action.payload);
+        yield put(songActions.addSong(post));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onUpdateSongs(id: string) {
+export function* onUpdateSongs(action: any) {
     try {
-        const post: Song = yield call(updateSong, id);
-        yield put(songActions.fetchSucceeded(post));
+        const post: Song = yield call(updateSong, action.payload);
+        yield put(songActions.addSong(post));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onDeleteSongs(id: string): SagaIterator {
+export function* onDeleteSongs(action: any) {
     try {
-        const post: Song = yield call(deleteSong, id);
-        yield put(songActions.fetchSucceeded(post));
+        console.log("action-----", action, action.payload)
+        const post: Song = yield call(deleteSong, action.payload);
+        yield put(songActions.addSong(post));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onGetTotalNumberOfSongs(): SagaIterator {
+export function* onGetTotalNumberOfSongs() {
     try {
-        const post: Song = yield call(getTotalNumberOfSongs);
-        yield put(songActions.fetchSucceeded(post));
+        const count: number = yield call(getTotalNumberOfSongs);
+        console.log("onGetTotalNumberOfSongs", count)
+        yield put(songActions.getTotalNumberOfSongs(count));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onGetTotalNumberOfArtists(): SagaIterator {
+export function* onGetTotalNumberOfArtists() {
     try {
-        const post: Song = yield call(getTotalNumberOfArtists);
-        yield put(songActions.fetchSucceeded(post));
+        const count: number = yield call(getTotalNumberOfArtists);
+        yield put(songActions.getTotalNumberOfArtist(count));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onGetTotalNumberOfAlbums(): SagaIterator {
+export function* onGetTotalNumberOfAlbums() {
     try {
-        const post: Song = yield call(getTotalNumberOfAlbums);
-        yield put(songActions.fetchSucceeded(post));
+        const count: number = yield call(getTotalNumberOfAlbums);
+        yield put(songActions.getTotalNumberOfAlbum(count));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onGetTotalNumberOfGenres(): SagaIterator {
+export function* onGetTotalNumberOfGenres() {
     try {
-        const post: Song = yield call(getTotalNumberOfGenres);
-        yield put(songActions.fetchSucceeded(post));
+        const count: number = yield call(getTotalNumberOfGenres);
+        yield put(songActions.getTotalNumberOfGenres(count));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onGetTotalNumberOfSongsInGenre(): SagaIterator {
+export function* onGetTotalNumberOfSongsInGenre() {
     try {
-        const post: Song = yield call(getTotalNumberOfSongsInGenre);
-        yield put(songActions.fetchSucceeded(post));
+        const count: number = yield call(getTotalNumberOfSongsInGenre);
+        console.log("onGetTotalNumberOfSongsInGenre", count)
+        yield put(songActions.getTotalNumberOfSongsInGenre(count));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onGetTotalNumberOfSongsAndAlbums(name: string): SagaIterator {
+export function* onGetTotalNumberOfSongsAndAlbums() {
     try {
-        const post: Song = yield call(getTotalNumberOfSongsAndAlbums, name);
-        yield put(songActions.fetchSucceeded(post));
+        const count: number = yield call(getTotalNumberOfSongsAndAlbums);
+        yield put(songActions.getTotalNumberOfSongsAndAlbums(count));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
 
-export function* onGetTotalNumberOfSongsInAlbum(id: string): SagaIterator {
+export function* onGetTotalNumberOfSongsInAlbum() {
     try {
-        const post: Song = yield call(getTotalNumberOfSongsInAlbum, id);
-        yield put(songActions.fetchSucceeded(post));
+        const count: number = yield call(getTotalNumberOfSongsInAlbum);
+        yield put(songActions.getTotalNumberOfSongsInAlbum(count));
     } catch (e: unknown) {
         if (e instanceof Error) {
-            yield put(songActions.fetchAllFailure(e.message.toString()));
+            yield put(songActions.error(e.message.toString()));
         }
     }   
 }
@@ -136,34 +143,34 @@ export function* songsWatcherSaga(): SagaIterator {
     yield takeEvery(FETCH_SONGS_REQUEST, onGetSongs);
 }
 export function* watchCreateSong() {
-    yield takeLatest(songActions.fetchAll.type, onCreateSongs);
+    yield takeLatest(ADD_SONG_REQUEST, onCreateSong);
 }
-// export function* WatchUpdateSaga() {
-//     yield takeLatest(songActions.fetchAll.type, onUpdateSongs);
-// }
-// export function* WatchDeleteSaga() {
-//     yield takeLatest(songActions.fetchAll.type, deleteSong);
-// }
+export function* WatchUpdateSaga() {
+    yield takeLatest(UPDATE_SONG_REQUEST, onUpdateSongs);
+}
+export function* WatchDeleteSaga() {
+    yield takeLatest(DELETE_SONG_REQUEST, onDeleteSongs);
+}
 export function* watchGetTotalNumberOfSongs() {
-    yield takeEvery(songActions.fetchAll.type, onGetTotalNumberOfSongs);
+    yield takeEvery(FETCH_TOTAL_NUMBER_OF_SONGS_REQUEST, onGetTotalNumberOfSongs);
 }
 export function* watchGetTotalNumberOfAlbums() {
-    yield takeEvery(songActions.fetchAll.type, onGetTotalNumberOfAlbums);
+    yield takeEvery(FETCH_TOTAL_NUMBER_OF_ALBUM_REQUEST, onGetTotalNumberOfAlbums);
 }
 export function* watchGetTotalNumberOfArtists() {
-    yield takeEvery(songActions.fetchAll.type, onGetTotalNumberOfArtists);
+    yield takeEvery(FETCH_TOTAL_NUMBER_OF_ARTIST_REQUEST, onGetTotalNumberOfArtists);
 }
 export function* watchGetTotalNumberOfGenres() {
-    yield takeEvery(songActions.fetchAll.type, onGetTotalNumberOfGenres);
+    yield takeEvery(FETCH_TOTAL_NUMBER_OF_GENRE_REQUEST, onGetTotalNumberOfGenres);
 }
-// export function* watchGetTotalNumberOfSongsAndAlbum() {
-//     yield takeEvery(songActions.fetchAll.type, onGetTotalNumberOfSongsAndAlbums);
-// }
-// export function* watchGetTotalNumberOfSongsInAlbum() {
-//     yield takeEvery(songActions.fetchAll.type, onGetTotalNumberOfSongsInAlbum);
-// }
+export function* watchGetTotalNumberOfSongsAndAlbum() {
+    yield takeEvery(FETCH_TOTAL_NUMBER_OF_SONGS_AND_ALBUM_REQUEST, onGetTotalNumberOfSongsAndAlbums);
+}
+export function* watchGetTotalNumberOfSongsInAlbum() {
+    yield takeEvery(FETCH_TOTAL_NUMBER_OF_SONGS_IN_ALBUM_REQUEST, onGetTotalNumberOfSongsInAlbum);
+}
 export function* watchGetTotalNumberOfSongsInGenre() {
-    yield takeEvery(songActions.fetchAll.type, onGetTotalNumberOfSongsInGenre);
+    yield takeEvery(FETCH_TOTAL_NUMBER_OF_SONGS_IN_GENRE_REQUEST, onGetTotalNumberOfSongsInGenre);
 }
 
 export default songsWatcherSaga;
