@@ -98,10 +98,13 @@ export const songSlice = createSlice({
         addSong(state, action: PayloadAction<Song>) {
             state.song = action.payload;
             state.loading = false;
+            state.resStatus = "SUCCESS"
         },
         error(state, action: PayloadAction<string>) {
             state.error = action.payload;
             state.loading = false;
+            state.resStatus = "FAILURE"
+
         },
     },
 });

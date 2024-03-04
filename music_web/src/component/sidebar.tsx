@@ -19,11 +19,7 @@ const Sidebar: React.FC = () => {
   return (
     <div>
       <SideBar>
-          <Link to="/" style={{marginTop: "20px"}}>
-            <Home />
-            Home
-          </Link>
-          <Link to="/song">
+          <Link to="/song" style={{marginTop: "20px"}}>
             <MusicNote />
             Song
           </Link>

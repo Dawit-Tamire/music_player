@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { css } from '@emotion/react';
-//import { addSong } from '../rootSaga';
 import { Card } from 'rebass';
 import styled from '@emotion/styled';
 import { space, color, fontSize } from 'styled-system';
@@ -48,7 +47,9 @@ interface Props {
 
 const SongForm: React.FC<Props> = ({add}) => {
   const [formData, setFormData] = useState<Song>({_id: '', title: '', genre: '', album: '', artist: ''})
-  const song = useSelector((state: RootState) => state.song.song);
+  const songSclice = useSelector((state: RootState) => state.song);
+  const { song, resStatus } = songSclice;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,20 +58,24 @@ const SongForm: React.FC<Props> = ({add}) => {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch(songActions.fetchSongsRequest())
+  }, [resStatus]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("formData", formData)
     
     add 
-      ? dispatch(songActions.addSongRequest(formData)) && dispatch(songActions.fetchSongsRequest())
-        : dispatch(songActions.updateSongRequest(formData)) && dispatch(songActions.fetchSongsRequest());
+      ? dispatch(songActions.addSongRequest(formData))
+        : dispatch(songActions.updateSongRequest(formData));
       
   };
 
   return (
     <div>
       <Card width={300} height={450}>
-        <h2 style={{marginLeft: "70px"}}>Create a Song</h2>
+        <h2 style={{marginLeft: "70px"}}>{add? "Create a Song" : "Update a Song" }</h2>
         <form onSubmit={handleSubmit} style={{marginLeft: "50px"}}>
           <label htmlFor="title">Title</label>
           <br />

@@ -9,7 +9,6 @@ import Sidebar from './component/sidebar';
 import { Provider } from 'react-redux';
 import Song from './component/song';
 import styled from '@emotion/styled';
-import Home from './component/home';
 
 
 const Container = styled.div`
@@ -34,7 +33,6 @@ function App() {
             <Sidebar />
             <RouteContainer>
               <Routes>
-                <Route path="/" element={<Home />} />
                 <Route path="/song" element={<Song />} />
                 <Route path="/statistics" element={<Statistics />} />
               </Routes>

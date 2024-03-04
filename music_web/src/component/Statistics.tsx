@@ -34,28 +34,28 @@ const SongStatistics: React.FC = () => {
 
 
   return (
-    <div style={{width: "1285px", height: "742px", backgroundColor: "lightgray"}}>
+    <div style={{width: "1350px", height: "738px", backgroundColor: "lightgray"}}>
       <h1 style={{marginLeft: "50px"}}>Statistics of Songs</h1>
       <Flex flexDirection="row" alignItems="center" mt={70}>
-        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={50}>
+        <Box width="fit-content" height="fit-content" p={3} bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={50}>
           <Text>Total number of songs: {totalNumberOfSongs.totalSongs}</Text>
           <Text>Total number of artists: {totalNumberOfGenres.totalGenres}</Text>
           <Text>Total number of albums: {totalNumberOfAlbums.totalAlbums}</Text>
           <Text>Total number of genres: {totalNumberOfArtists.totalArtists}</Text>
         </Box>
-        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={200}>
+        <Box width="fit-content" height="fit-content" p={3} bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={200} mt={50}>
           { totalNumberOfSongsInGenre.map((songsInGenre: any)  => (
             <Text>Number of songs in {songsInGenre._id}: {songsInGenre.count}</Text>
           ))}
         </Box>
       </Flex>
       <Flex flexDirection="row" alignItems="center" mt={10}>
-        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={50}>
+        <Box width="fit-content" height="fit-content" p={3} bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={50}>
           { totalNumberOfSongsAndAlbums.map((songsAndAlbums: any)  => (
             <Text>{songsAndAlbums._id} has: {songsAndAlbums.totalSongs} songs and {songsAndAlbums.albums.length} albums</Text>
           ))}
         </Box>
-        <Box width="300px" height="80px" bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={200}>
+        <Box width="fit-content" height="fit-content" p={3} bg="white" sx={{ border: '1px solid #ccc' }} mb={4} ml={200}>
           { totalNumberOfSongsInAlbum.map((songsInAlbums: any)  => (
             <Text>Number of songs in {songsInAlbums._id} album: {songsInAlbums.totalSongs}</Text>
           ))}
