@@ -14,26 +14,8 @@ var songRouter = require('./routes/song');
 
 var app = express();
 
-//Database
-//var db = await mongoose();
 
-// const uri = 'mongodb+srv://dawit:xxscYeKgnjm1hrRQ@cluster0.nxskok8.mongodb.net/songDb?retryWrites=true&w=majority';
-
-// // Create a new MongoClient
-// const client = new MongoClient(uri);
-
-// try {
-//     // Connect to the MongoDB cluster
-//     await client.connect();
-//     console.log('Connected to MongoDB');
-
-//     // Use a database
-//     const database = client.db('songDb');
-//     return database;
-// } catch (err) {
-//     console.error('Error connecting to MongoDB:', err);
-// }
-
+//DATABASE
 const uri = 'mongodb+srv://dawit:xxscYeKgnjm1hrRQ@cluster0.nxskok8.mongodb.net/songDb?retryWrites=true&w=majority';
 
 mongoose.connect(uri, {}).then(con => {

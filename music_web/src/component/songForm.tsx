@@ -9,14 +9,6 @@ import type { Song } from '../types/types';
 import { RootState } from '../root/config.store';
 
 
-const cardStyles = css`
-  background-color: red;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  justify-content: center;
-`;
-
 const StyledInput = styled.input`
   display: block;
   margin: 0px 0px;
@@ -47,7 +39,7 @@ interface Props {
 
 const SongForm: React.FC<Props> = ({add}) => {
   const [formData, setFormData] = useState<Song>({_id: '', title: '', genre: '', album: '', artist: ''})
-  const songSclice = useSelector((state: RootState) => state.song);
+  const { songSclice } = useSelector((state: RootState) => state.song);
   const { song, resStatus } = songSclice;
 
   const dispatch = useDispatch();
