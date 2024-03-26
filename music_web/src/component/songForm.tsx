@@ -39,7 +39,7 @@ interface Props {
 
 const SongForm: React.FC<Props> = ({add}) => {
   const [formData, setFormData] = useState<Song>({_id: '', title: '', genre: '', album: '', artist: ''})
-  const { songSclice } = useSelector((state: RootState) => state.song);
+  const songSclice = useSelector((state: RootState) => state.song);
   const { song, resStatus } = songSclice;
 
   const dispatch = useDispatch();
